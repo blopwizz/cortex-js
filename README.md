@@ -1,5 +1,5 @@
 # 🧠 Cortex JS
-A set of NodeJS examples to get started with the Cortex API for Emotiv EEG headsets. For more information about Cortex API, see [Cortex API documentation](https://emotiv.github.io/cortex-docs). These examples use code from [https://github.com/Emotiv/cortex-example](Emotiv starter examples for Cortex API).
+A set of NodeJS examples to get started with the Cortex API for Emotiv EEG headsets. For more information about Cortex API, see [Cortex API documentation](https://emotiv.github.io/cortex-docs). These examples use code from [Emotiv starter examples for Cortex API]((https://github.com/Emotiv/cortex-example).
 
 ### Requirements
 You will need :
