@@ -1,0 +1,6 @@
+{
+    "username": "your_username",
+    "password": "your_password",
+    "client_id": "your_cortex_client_id",
+    "client_secret": "your_cortex_client_secret"
+}

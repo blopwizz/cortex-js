@@ -1,4 +1,5 @@
 const Cortex = require("../lib/cortex");
+const CONFIG = require("../config.json");
 
 // When user start this from the console
 if (require.main === module) {
@@ -16,10 +17,10 @@ if (require.main === module) {
     const client = new Cortex(options);
 
     const auth = {
-        username: "your_username",
-        password: "your_passwork",
-        client_id: "your_cortex_client_id",
-        client_secret: "your_cortex_client_secret",
+        username: CONFIG.username,
+        password: CONFIG.password,
+        client_id: CONFIG.client_id,
+        client_secret: CONFIG.client_secret,
         debit:1 // first time you run example debit should > 0
     };
     
