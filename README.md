@@ -56,6 +56,7 @@ sys |	System event (to setup training) |
 * UI example
 * OSC example (UDP protocol often used in interactive real-time applications)
 * Workflow illustration
+* Estimation of battery time left
 
 ## Non documented Cortex methods
 These are some methods used in the code that are not documented in [Cortex API documentation](https://emotiv.github.io/cortex-docs).
