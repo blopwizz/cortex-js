@@ -9,6 +9,8 @@
  */
 
 const Cortex = require('../lib/cortex')
+const CONFIG = require("../config.json");
+
 
 // Determine whether a file has been run directly by testing require.main === module.
 // (else it means that it is required as a module in a other file)
@@ -30,6 +32,14 @@ if (require.main === module) {
   const cmd = args.shift()
   const client = new Cortex({verbose})
 
+  const auth = {
+    username: CONFIG.username,
+    password: CONFIG.password,
+    client_id: CONFIG.client_id,
+    client_secret: CONFIG.client_secret,
+    debit:1 // first time you run example debit should > 0
+};
+
   // Usage information to display to the user
   const USAGE =
 `Usage: node headset.js list
@@ -50,7 +60,7 @@ if (require.main === module) {
   }
 
   client.ready.then(() => 
-    client.init()).then(() => {
+    client.init(auth)).then(() => {
     switch (cmd) {
       case 'list': {
         return client
