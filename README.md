@@ -61,7 +61,7 @@ sys |	System event (to setup training) |
 * Estimation of battery time left
 
 ## Non documented Cortex methods
-These are some methods used in the code that are not documented in [Cortex API documentation](https://emotiv.github.io/cortex-docs).
+These are some methods used in the code that are **not documented** at the moment in [Cortex API documentation](https://emotiv.github.io/cortex-docs). These should be documented.
 * init()
 * inspectApi()
 * updateHeadset()
