@@ -14,11 +14,19 @@ You will need :
 5. Plug the USB dongle in the computer. Turn on the headset. Make sure that the headset is running on battery (not connected to the computer via USB cable).
 6. Start the hello-world example with `node hello.js`. You should see your Client ID appearing.
 
+## Common problems and quick fix
+* `JSONRPCError: Request timed out.` : happens from time to time, try again command line.
+* `TypeError: Cannot read property 'length' of null` : happens sometimes when headset is not ready yet. Try again.
+* `JSONRPCError: No headset connected.` : Redo step (5) step by step. After plugging the USB dongle, one LED lights up on the dongle. After turning on the headset, a second LED should light up on the dongle. If not, try again and wait for some 10 seconds between each step. (to let time for the bluetooth connection to establish)
+
+
 ## Checked 
 * events.js
 * raw.js
-* headset.js status, show
-* numbers.js
+* dev.js – Device data stream includeing battery level , signal strength, and signal quality all of channel headset
+* headset.js status, show – headset info
+* numbers.js – all streams
+* metrics.js – performance metrics stream
 
 ## Ideas of things to do
 * ~~raw.js fix~~
@@ -35,12 +43,12 @@ You will need :
 * OSC example (UDP protocol often used in interactive real-time applications)
 * Workflow illustration
 
+
 ## Non documented Cortex methods
 These are some methods used in the code that are not documented in [Cortex API documentation](https://emotiv.github.io/cortex-docs).
 * init()
 * inspectApi()
 * updateHeadset()
-
 
 ## Useful resources
 * This code makes extensive use of asynchronous requests using Promises and async/await. If you never heard these words or if you just need a refresher, check out this [great explanation on Youtube](https://www.youtube.com/watch?v=gB-OmN1egV8) by Tyler McGinnis. 
