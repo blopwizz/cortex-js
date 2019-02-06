@@ -32,6 +32,7 @@ You will need :
 * Workflow illustration
 
 ## Non documented Cortex methods
+These are some methods used in the code that are not documented in [Cortex API docmuentation](https://emotiv.github.io/cortex-docs).
 * init()
 * inspectApi()
 * updateHeadset()
