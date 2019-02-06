@@ -1,0 +1,102 @@
+/*
+ * Raw data
+ * ********
+ *
+ * Here we do some fairly simple stuff; no combining multiple streams or
+ * anything fancy, just take the raw data from the API annd return it
+ *
+ * We also support markers, which you can add by pressing keys
+ *
+ */
+
+const Cortex = require("../lib/cortex");
+const CONFIG = require("../config.json");
+
+function raw(client, onResult) {
+  return client
+    .createSession({ status: "active" })
+    .then(() => client.subscribe({ streams: ["dev"] }))
+    .then(subs => {
+      if (!subs[0].dev) throw new Error("failed to subscribe");
+
+      const headers = subs[0].dev.cols.slice();
+      headers.unshift("seq", "time");
+      headers.headers = true;
+
+      let n = 0;
+      const onDev = data => {
+        if (n === 0) onResult(headers);
+        onResult([n, data.time].concat(data.dev));
+        n++;
+      };
+
+      client.on("dev", onDev);
+
+      return () =>
+        client
+          .inspectApi()
+          .then(() => client.unsubscribe({ streams: ["dev"] }))
+          .then(() => client.updateSession({ status: "close" }))
+          .then(() => client.removeListener("dev", onDev));
+    });
+}
+
+if (require.main === module) {
+  process.on("unhandledRejection", err => {
+    throw err;
+  });
+
+  const readline = require("readline");
+  const stdin = process.stdin;
+  readline.emitKeypressEvents(stdin);
+  if (stdin.isTTY) stdin.setRawMode(true);
+
+  const verbose = process.env.LOG_LEVEL || 1;
+  const options = { verbose };
+  const client = new Cortex(options);
+
+  // Authorization login is needed 
+  const auth = {
+    username: CONFIG.username,
+    password: CONFIG.password,
+    client_id: CONFIG.client_id,
+    client_secret: CONFIG.client_secret,
+    debit:1 // first time you run example debit should > 0
+};
+
+  client.ready
+    .then(() => client.init(auth))
+    .then(() => raw(client, rawData => console.log(rawData.join(","))))
+    .then(finish => {
+      console.warn(
+        "Streaming raw data as CSV. Press any key to add a marker or escape to stop."
+      );
+      return new Promise(resolve => {
+        stdin.on("keypress", (char, key) => {
+          const time = new Date();
+          const { ctrl, alt, meta, name } = key;
+          if (!ctrl && !alt && !meta && name.match(/^[a-z0-9]$/)) {
+            client
+              .injectMarker({ label: "key", value: name, time })
+              .then(() => {
+                const ftime = `${time.toLocaleTimeString()}.${time.getMilliseconds()}`;
+                console.warn(`Added marker ${name} at time ${ftime}`);
+              });
+          } else if (name === "escape" || (ctrl && name === "c")) {
+            stdin.removeAllListeners("keypress");
+            stdin.pause();
+            resolve(finish());
+          }
+        });
+      });
+    })
+    .then(() => client.close())
+    .then(() => {
+      console.warn("Finished!");
+    });
+
+  // We could use the value returned by numbers) here, but when we ctrl+c it
+  // will clean up the connection anyway
+}
+
+module.exports = raw;
