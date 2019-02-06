@@ -31,6 +31,12 @@ You will need :
 * OSC example (UDP protocol often used in interactive real-time applications)
 * Workflow illustration
 
+## Non documented Cortex methods
+* init()
+* inspectApi()
+* updateHeadset()
+
+
 ## Useful resources
 * This code makes extensive use of asynchronous requests using Promises and async/await. If you never heard these words or if you just need a refresher, check out this [great explanation on Youtube](https://www.youtube.com/watch?v=gB-OmN1egV8) by Tyler McGinnis. 
 * Matching regular expressions are super useful to format data. Check out this [interactive lesson here](https://regexone.com).
