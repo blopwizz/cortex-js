@@ -125,7 +125,7 @@ if (require.main === module) {
 
         return client
           .createSession({status: 'open', headset})
-          .subscribe({streams: ['dev']})
+          .then(() => client.subscribe({streams: ['dev']}))
           .then(subs => {
             if (!subs[0].dev) throw new Error("Couldn't subscribe to device stream")
             const cols = subs[0].dev.cols
