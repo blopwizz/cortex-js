@@ -10,6 +10,8 @@
  */
 
 const Cortex = require("../lib/cortex");
+const CONFIG = require("../config.json");
+
 
 function raw(client, onResult) {
   return client
@@ -53,14 +55,15 @@ if (require.main === module) {
   const verbose = process.env.LOG_LEVEL || 1;
   const options = { verbose };
   const client = new Cortex(options);
-  // these values need to fill to run example
+
+  // Authorization login is needed 
   const auth = {
-    username: "...",
-    password: "...",
-    client_id: "...",
-    client_secret: "...",
-    debit: 1 // first time you run example debit should > 0
-  };
+    username: CONFIG.username,
+    password: CONFIG.password,
+    client_id: CONFIG.client_id,
+    client_secret: CONFIG.client_secret,
+    debit:1 // first time you run example debit should > 0
+};
 
   client.ready
     .then(() => client.init(auth))

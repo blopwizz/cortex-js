@@ -32,6 +32,8 @@ if (require.main === module) {
   const cmd = args.shift()
   const client = new Cortex({verbose})
 
+  // Authorization login
+  // - needed for updateHeadset() method
   const auth = {
     username: CONFIG.username,
     password: CONFIG.password,
