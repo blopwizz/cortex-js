@@ -45,7 +45,9 @@ sys |	System event (to setup training) |
 ## Contribution : Ideas of things to do
 * ~~raw.js fix~~
 * ~~headset.js update fix~~
-* numbers.js auth fix (with config file)
+* ~~numbers.js auth fix (with config file)~~
+* refactor code with :direct execution, module exports, utils
+* include checkheadset check in cortex js lib
 * check out REPL example
 * Training example
 * Facial Expression training
