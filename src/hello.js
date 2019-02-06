@@ -13,9 +13,12 @@ if (require.main === module) {
         throw err;
     });
 
-    // Tell the console what it is doing
-    // - verbose
-    // - create a new Cortex client
+  // Arguments and verbose console parameters
+  // - verbose : we can set LOG_LEVEL to 0, 1 or 2 with `setenv LOG_LEVEL 0` 
+  //   for more detailed errors 
+  // - arguments are put in an array
+  // - cmd is popped from the array of arguments
+  // - create a new Cortex client
     const verbose = process.env.LOG_LEVEL || 1;
     const options = {verbose};
     const client = new Cortex(options);

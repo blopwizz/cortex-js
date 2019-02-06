@@ -145,7 +145,14 @@ if (require.main === module) {
       const output = Object.keys(averages)
         .map(k => `${k}: ${averages[k].toFixed(2)}`)
         .join(", ");
-      console.log(output);
+      console.log("Interest: " +averages["int"]);
+      console.log("Stress: " +averages["str"]);
+      console.log("Relaxation: " +averages["rel"]);
+      console.log("Excitement: "+averages["exc"]);
+      console.log("Engagement: "+averages["eng"]);
+      console.log("Long-term excitement: "+averages["lex"]);
+      console.log("Focus: "+averages["foc"]);
+      console.log("--------------");
     })
   );
 
