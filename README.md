@@ -14,12 +14,16 @@ You will need :
 5. Plug the USB dongle in the computer. Turn on the headset. Make sure that the headset is running on battery (not connected to the computer via USB cable).
 6. Start the hello-world example with `node hello.js`. You should see your Client ID appearing.
 
-## Common errors
-* Request timeout : happens from time to time ... restart the app.
+## Checked 
+* events.js
+* raw.js
+* headset.js status, show
+* numbers.js
 
 ## Ideas of things to do
-* raw.js fix
-* headset.js fix
+~~* raw.js fix~~
+~~* headset.js update fix~~
+* numbers.js auth fix (with config file)
 * check out REPL example
 * Training example
 * Facial Expression training
