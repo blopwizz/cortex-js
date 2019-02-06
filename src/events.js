@@ -20,17 +20,53 @@
  *
  */
 
-const Cortex = require("../lib/cortex");
+const Cortex = require("../lib/cortex")
+const CONFIG = require("../config.json")
+const showHeadset = require("./headset.js")
 
-// Small wrapper function  to turn the column-oriented format we get from the
-// API into key:value pairs
-const columns2obj = headers => cols => {
-  const obj = {};
-  for (let i = 0; i < cols.length; i++) {
-    obj[headers[i]] = cols[i];
-  }
-  return obj;
-};
+// This is the main module that gets evaluated when you run it from the
+// command line
+if (require.main === module) {
+  process.on("unhandledRejection", err => {
+    throw err;
+  });
+
+  // We can set LOG_LEVEL=2 or 3 for more detailed errors
+  const verbose = process.env.LOG_LEVEL || 1;
+  const options = { verbose, threshold: 0 };
+  const threshold = 0;
+  const client = new Cortex(options);
+  const auth = {
+    username: CONFIG.username,
+    password: CONFIG.password,
+    client_id: CONFIG.client_id,
+    client_secret: CONFIG.client_secret,
+    debit:1 // first time you run example debit should > 0
+  };
+
+  client.ready
+  .then(() => client.init(auth))
+  .then(() => showHeadset(client))
+  .then(() => {
+    console.log(
+      `Watching for facial expressions and mental commands above ${Math.round(
+        threshold * 100
+      )}% power`
+    );
+
+    events(client, threshold, ({ eyes, brows, mouth, command }) => {
+      console.log(
+        `eyes: ${pad(eyes, 10)} | brows: ${pad(brows, 10)} | mouth: ${pad(
+          mouth,
+          10
+        )} | command: ${command}`
+      );
+    });
+  });
+
+  // We could use the value returned by events() here, but when we ctrl+c it
+  // will clean up the connection anyway
+}
 
 function events(client, threshold, onResult) {
   return client
@@ -91,42 +127,17 @@ function events(client, threshold, onResult) {
     });
 }
 
-const pad = (str, n) =>
-  str + new Array(Math.max(0, n - str.length + 1)).join(" ");
+// Small wrapper function  to turn the column-oriented format we get from the
+// API into key:value pairs
+const columns2obj = headers => cols => {
+  const obj = {};
+  for (let i = 0; i < cols.length; i++) {
+    obj[headers[i]] = cols[i];
+  }
+  return obj;
+};
 
-// This is the main module that gets evaluated when you run it from the
-// command line
-if (require.main === module) {
-  process.on("unhandledRejection", err => {
-    throw err;
-  });
+const pad = (str, n) => str + new Array(Math.max(0, n - str.length + 1)).join(" ");
 
-  // We can set LOG_LEVEL=2 or 3 for more detailed errors
-  const verbose = process.env.LOG_LEVEL || 1;
-  const options = { verbose, threshold: 0 };
-  const threshold = 0;
-
-  const client = new Cortex(options);
-
-  client.ready.then(() => client.init()).then(() => {
-    console.log(
-      `Watching for facial expressions and mental commands above ${Math.round(
-        threshold * 100
-      )}% power`
-    );
-
-    events(client, threshold, ({ eyes, brows, mouth, command }) => {
-      console.log(
-        `eyes: ${pad(eyes, 10)} | brows: ${pad(brows, 10)} | mouth: ${pad(
-          mouth,
-          10
-        )} | command: ${command}`
-      );
-    });
-  });
-
-  // We could use the value returned by events() here, but when we ctrl+c it
-  // will clean up the connection anyway
-}
 
 module.exports = events;

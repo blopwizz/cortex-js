@@ -9,7 +9,39 @@
  */
 
 const Cortex = require('../lib/cortex')
-const CONFIG = require("../config.json");
+const CONFIG = require("../config.json")
+
+function showHeadset(client) {
+  return client
+    .queryHeadsets()
+    .then(headsets => {
+      const headset = headsets[0]
+      if (!headset) throw new Error('Headset not found')
+
+      const len = headset.id.length
+
+      console.log('='.repeat(len))
+      console.log(headset.id)
+      console.log('='.repeat(len))
+      console.log()
+
+      console.log('Info')
+      console.log('-'.repeat(len))
+      for (const k of Object.keys(headset)) {
+        const v = headset[k]
+        if (!v || ['id', 'settings'].indexOf(k) > -1) continue
+        console.log(`${k}: ${v}`)
+      }
+      console.log()
+
+      console.log('Settings')
+      console.log('-'.repeat(len))
+      for (const k of Object.keys(headset.settings)) {
+        const v = headset.settings[k]
+        console.log(`${k}=${v}`)
+      }
+    })
+}
 
 
 // Determine whether a file has been run directly by testing require.main === module.
@@ -80,37 +112,7 @@ if (require.main === module) {
       }
 
       case 'show': {
-        const [id] = args
-
-        return client
-          .queryHeadsets({id})
-          .then(headsets => {
-            const headset = headsets[0]
-            if (!headset) throw new Error('Headset not found')
-
-            const len = headset.id.length
-
-            console.log('='.repeat(len))
-            console.log(headset.id)
-            console.log('='.repeat(len))
-            console.log()
-
-            console.log('Info')
-            console.log('-'.repeat(len))
-            for (const k of Object.keys(headset)) {
-              const v = headset[k]
-              if (!v || ['id', 'settings'].indexOf(k) > -1) continue
-              console.log(`${k}: ${v}`)
-            }
-            console.log()
-
-            console.log('Settings')
-            console.log('-'.repeat(len))
-            for (const k of Object.keys(headset.settings)) {
-              const v = headset.settings[k]
-              console.log(`${k}=${v}`)
-            }
-          })
+        showHeadset(client, args);
       }
 
       case 'update': {
@@ -171,3 +173,5 @@ if (require.main === module) {
   })
   .then(()=> client.close());
 }
+
+module.exports = showHeadset;
