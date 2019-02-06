@@ -20,17 +20,6 @@ You will need :
 * `JSONRPCError: No headset connected.` : Redo step (5) step by step. After plugging the USB dongle, one LED lights up on the dongle. After turning on the headset, a second LED should light up on the dongle. If not, try again and wait for some 10 seconds between each step. (to let time for the bluetooth connection to establish)
 
 ## Examples
-### Streams
-Example | Description 
---- | --- | ---
-mot | Motion data stream from the accelerometer/gyroscope | 
-eeg | Raw EEG data stream (require license)| [raw.js](https://github.com/blopwizz/cortex-js/blob/master/src/raw.js)
-com |	Mental Command Event |
-fac |	Facial Expression Event |
-met |	Performance Metrics data stream | [metrics.js](https://github.com/blopwizz/cortex-js/blob/master/src/metrics.js)
-dev |	Device data  stream including battery level , signal strength, and signal quality all of channel headset | [dev.js](https://github.com/blopwizz/cortex-js/blob/master/src/dev.js)
-pow |	Band Power data stream |
-sys |	System event (to setup training) |
 
 ### Streams
 
