@@ -19,8 +19,22 @@ You will need :
 * `TypeError: Cannot read property 'length' of null` : happens sometimes when headset is not ready yet. Try again.
 * `JSONRPCError: No headset connected.` : Redo step (5) step by step. After plugging the USB dongle, one LED lights up on the dongle. After turning on the headset, a second LED should light up on the dongle. If not, try again and wait for some 10 seconds between each step. (to let time for the bluetooth connection to establish)
 
+## Development : Cortex API workflow 
 
-## Checked 
+### Streams
+
+Stream | Description 
+--- | ---
+mot| Motion data from the accelerometer/gyroscope
+eeg | Raw EEG data (require license)
+com |	Mental Command Event
+fac |	Facial Expression Event
+met |	Performance Metrics data
+dev |	Device data include battery level , signal strength, and signal quality all of channel headset
+pow |	Band Power data
+sys |	System event (to setup training)
+
+## Contribution : Scripts up and working
 * events.js
 * raw.js
 * dev.js – Device data stream includeing battery level , signal strength, and signal quality all of channel headset
@@ -28,7 +42,7 @@ You will need :
 * numbers.js – all streams
 * metrics.js – performance metrics stream
 
-## Ideas of things to do
+## Contribution : Ideas of things to do
 * ~~raw.js fix~~
 * ~~headset.js update fix~~
 * numbers.js auth fix (with config file)
@@ -42,7 +56,6 @@ You will need :
 * UI example
 * OSC example (UDP protocol often used in interactive real-time applications)
 * Workflow illustration
-
 
 ## Non documented Cortex methods
 These are some methods used in the code that are not documented in [Cortex API documentation](https://emotiv.github.io/cortex-docs).
