@@ -15,25 +15,12 @@
  */
 
 const Cortex = require("../lib/cortex");
+const CONFIG = require("../config.json");
 
-function rollingAverage(columns, windowSize) {
-  let avgCount = 0;
-  const averages = {};
-  return row => {
-    avgCount = Math.min(windowSize, avgCount + 1);
-
-    columns.forEach((col, i) => {
-      const oldAvg = averages[col] || 0;
-      averages[col] = oldAvg + (row[i] - oldAvg) / avgCount;
-    });
-
-    return averages;
-  };
-}
 
 function numbers(client, windowSize, onResult) {
   return client
-    .createSession({ status: "open" })
+    .createSession({ status: "active" })
     .then(() => client.subscribe({ streams: ["pow", "mot", "met"] }))
     .then(_subs => {
       const subs = Object.assign({}, ..._subs);
@@ -122,19 +109,38 @@ function numbers(client, windowSize, onResult) {
     });
 }
 
+// Run from Nodejs console
+//      When a file is run directly from Node.js, require.main is set to its module. 
+//      That means that it is possible to determine whether a file has been run directly by testing require.main === module.
+//      else it is required as a module
+//      see doc at https://nodejs.org/docs/latest/api/all.html#modules_accessing_the_main_module
 if (require.main === module) {
   process.on("unhandledRejection", err => {
     throw err;
   });
 
-  // We can set LOG_LEVEL=2 or 3 for more detailed errors
+    // Arguments and verbose console parameters
+  // - verbose : we can set LOG_LEVEL to 0, 1 or 2 with `setenv LOG_LEVEL 0` 
+  //   for more detailed errors 
+  // - arguments are put in an array
+  // - cmd is popped from the array of arguments
+  // - create a new Cortex client
+  // - average window for smoothing data
   const verbose = process.env.LOG_LEVEL || 1;
   const options = { verbose };
+  const client = new Cortex(options);
   const avgWindow = 10;
 
-  const client = new Cortex(options);
+  const auth = {
+    username: CONFIG.username,
+    password: CONFIG.password,
+    client_id: CONFIG.client_id,
+    client_secret: CONFIG.client_secret,
+    debit:1 // first time you run example debit should > 0
+};
 
-  client.ready.then(() => client.init()).then(() =>
+  client.ready.then(() => 
+  client.init(auth)).then(() =>
     numbers(client, avgWindow, averages => {
       const output = Object.keys(averages)
         .map(k => `${k}: ${averages[k].toFixed(2)}`)
@@ -146,6 +152,22 @@ if (require.main === module) {
 
   // We could use the value returned by numbers) here, but when we ctrl+c it
   // will clean up the connection anyway
+}
+
+// Rolling average function
+function rollingAverage(columns, windowSize) {
+  let avgCount = 0;
+  const averages = {};
+  return row => {
+    avgCount = Math.min(windowSize, avgCount + 1);
+
+    columns.forEach((col, i) => {
+      const oldAvg = averages[col] || 0;
+      averages[col] = oldAvg + (row[i] - oldAvg) / avgCount;
+    });
+
+    return averages;
+  };
 }
 
 module.exports = numbers;

@@ -12,7 +12,6 @@
 const Cortex = require("../lib/cortex");
 const CONFIG = require("../config.json");
 
-
 function raw(client, onResult) {
   return client
     .createSession({ status: "active" })
