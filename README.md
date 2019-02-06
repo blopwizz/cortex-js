@@ -23,16 +23,16 @@ You will need :
 
 ### Streams
 
-Stream | Description 
---- | ---
-mot| Motion data from the accelerometer/gyroscope
-eeg | Raw EEG data (require license)
-com |	Mental Command Event
-fac |	Facial Expression Event
-met |	Performance Metrics data
-dev |	Device data include battery level , signal strength, and signal quality all of channel headset
-pow |	Band Power data
-sys |	System event (to setup training)
+Stream | Description | Example
+--- | --- | ---
+mot| Motion data from the accelerometer/gyroscope | 
+eeg | Raw EEG data (require license)|
+com |	Mental Command Event |
+fac |	Facial Expression Event |
+met |	Performance Metrics data |
+dev |	Device data include battery level , signal strength, and signal quality all of channel headset | [dev.js](https://github.com/blopwizz/cortex-js/blob/master/src/dev.js)
+pow |	Band Power data |
+sys |	System event (to setup training) |
 
 ## Contribution : Scripts up and working
 * events.js
