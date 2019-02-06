@@ -10,17 +10,27 @@
 
 const Cortex = require('../lib/cortex')
 
+// Determine whether a file has been run directly by testing require.main === module.
+// (else it means that it is required as a module in a other file)
+// see Nodejs doc at https://nodejs.org/docs/latest/api/all.html#modules_accessing_the_main_module
 if (require.main === module) {
+  
+  // Unhandled errors
   process.on("unhandledRejection", err => {
     throw err;
   });
 
-  // Tell the console what it is doing
-    // - verbose
+  // Arguments and verbose console parameters
+  // - verbose : set LOG_LEVEL to 0, 1 or 2 with `setenv LOG_LEVEL 0' 
+  // - arguments are put in an array
+  // - cmd is popped from the array of arguments
+  // - create a new Cortex client
   const verbose = process.env.LOG_LEVEL
   const args = process.argv.slice(2)
   const cmd = args.shift()
+  const client = new Cortex({verbose})
 
+  // Usage information to display to the user
   const USAGE =
 `Usage: node headset.js list
        node headset.js show [headsetid]
@@ -39,13 +49,8 @@ if (require.main === module) {
     process.exit(1)
   }
 
-  
-  // - create a new Cortex client
-  const client = new Cortex({verbose})
-
   client.ready.then(() => 
-    client.init())
-    .then(() => {
+    client.init()).then(() => {
     switch (cmd) {
       case 'list': {
         return client

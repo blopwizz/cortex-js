@@ -1,7 +1,11 @@
 const Cortex = require("../lib/cortex");
 const CONFIG = require("../config.json");
 
-// When user start this from the console
+// Run from Nodejs console
+//      When a file is run directly from Node.js, require.main is set to its module. 
+//      That means that it is possible to determine whether a file has been run directly by testing require.main === module.
+//      else it is required as a module
+//      see doc at https://nodejs.org/docs/latest/api/all.html#modules_accessing_the_main_module
 if (require.main === module) {
 
     // Unhandled errors
