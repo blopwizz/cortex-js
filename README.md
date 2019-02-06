@@ -21,8 +21,8 @@ You will need :
 * numbers.js
 
 ## Ideas of things to do
-~~* raw.js fix~~
-~~* headset.js update fix~~
+* ~~raw.js fix~~
+* ~~headset.js update fix~~
 * numbers.js auth fix (with config file)
 * check out REPL example
 * Training example
