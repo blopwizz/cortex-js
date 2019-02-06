@@ -26,10 +26,10 @@ You will need :
 Stream | Description | Example
 --- | --- | ---
 mot| Motion data from the accelerometer/gyroscope | 
-eeg | Raw EEG data (require license)|
+eeg | Raw EEG data (require license)| [raw.js](https://github.com/blopwizz/cortex-js/blob/master/src/raw.js)
 com |	Mental Command Event |
 fac |	Facial Expression Event |
-met |	Performance Metrics data |
+met |	Performance Metrics data | [metrics.js](https://github.com/blopwizz/cortex-js/blob/master/src/metrics.js)
 dev |	Device data include battery level , signal strength, and signal quality all of channel headset | [dev.js](https://github.com/blopwizz/cortex-js/blob/master/src/dev.js)
 pow |	Band Power data |
 sys |	System event (to setup training) |
