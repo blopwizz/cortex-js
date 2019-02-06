@@ -1,11 +1,7 @@
 /*
- * Raw data
+ * Dev data
  * ********
- *
- * Here we do some fairly simple stuff; no combining multiple streams or
- * anything fancy, just take the raw data from the API annd return it
- *
- * We also support markers, which you can add by pressing keys
+ * Just listening to dev stream
  *
  */
 
@@ -55,7 +51,7 @@ if (require.main === module) {
   const options = { verbose };
   const client = new Cortex(options);
 
-  // Authorization login is needed 
+  // Authorization login
   const auth = {
     username: CONFIG.username,
     password: CONFIG.password,
@@ -94,9 +90,6 @@ if (require.main === module) {
     .then(() => {
       console.warn("Finished!");
     });
-
-  // We could use the value returned by numbers) here, but when we ctrl+c it
-  // will clean up the connection anyway
 }
 
 module.exports = raw;
