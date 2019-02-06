@@ -11,8 +11,12 @@
 const Cortex = require('../lib/cortex')
 
 if (require.main === module) {
-  process.on('unhandledRejection', (err) => { throw err })
+  process.on("unhandledRejection", err => {
+    throw err;
+  });
 
+  // Tell the console what it is doing
+    // - verbose
   const verbose = process.env.LOG_LEVEL
   const args = process.argv.slice(2)
   const cmd = args.shift()
@@ -35,11 +39,13 @@ if (require.main === module) {
     process.exit(1)
   }
 
+  
+  // - create a new Cortex client
   const client = new Cortex({verbose})
-  client.ready
-  .init()
-  // .then(() => new Promise((resolve) => setTimeout(resolve, 2000)))
-  .then(() => {
+
+  client.ready.then(() => 
+    client.init())
+    .then(() => {
     switch (cmd) {
       case 'list': {
         return client
@@ -146,5 +152,5 @@ if (require.main === module) {
     }
     process.exitCode = 1
   })
-  .close()
+  .then(()=> client.close());
 }
